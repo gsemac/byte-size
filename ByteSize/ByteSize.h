@@ -40,6 +40,19 @@ public:
 	std::string LargestBitUnitSymbol() const;
 	double LargestBitUnitValue() const;
 
+	void AddBits(double size);
+	void AddBytes(double size);
+	void AddKilobytes(double size);
+	void AddMegabytes(double size);
+	void AddGigabytes(double size);
+	void AddTerabytes(double size);
+	void AddPetabytes(double size);
+	void AddKilobits(double size);
+	void AddMegabits(double size);
+	void AddGigabits(double size);
+	void AddTerabits(double size);
+	void AddPetabits(double size);
+
 	std::string ToString(unsigned int precision = 1) const;
 	
 	static ByteSize MinValue();
