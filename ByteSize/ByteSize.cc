@@ -99,6 +99,42 @@ namespace hvn3 {
 
 	}
 
+	void ByteSize::AddBits(double size) {
+
+		*this = ByteSize(Bytes() + BitsInByte(_unit) / size, _unit, _prefix);
+
+	}
+	void ByteSize::AddBytes(double size) {
+
+		*this = ByteSize(Bytes() + size, _unit, _prefix);
+
+	}
+	void ByteSize::AddKilobytes(double size) {
+
+		*this = ByteSize(Bytes() + size * BytesInKilobyte(_unit), _unit, _prefix);
+
+	}
+	void ByteSize::AddMegabytes(double size) {
+
+		*this = ByteSize(Bytes() + size * BytesInMegabyte(_unit), _unit, _prefix);
+
+	}
+	void ByteSize::AddGigabytes(double size) {
+
+		*this = ByteSize(Bytes() + size * BytesInGigabyte(_unit), _unit, _prefix);
+
+	}
+	void ByteSize::AddTerabytes(double size) {
+
+		*this = ByteSize(Bytes() + size * BytesInTerabyte(_unit), _unit, _prefix);
+
+	}
+	void ByteSize::AddPetabytes(double size) {
+
+		*this = ByteSize(Bytes() + size * BytesInPetabyte(_unit), _unit, _prefix);
+
+	}
+
 	std::string ByteSize::ToString(unsigned int precision) const {
 
 		std::stringstream stream;
