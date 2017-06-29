@@ -20,7 +20,7 @@ namespace hvn3 {
 
 	ByteSize::ByteSize(double bytes, ByteUnit unit, BytePrefix prefix) {
 
-		_bytes = bytes;
+		_bytes = RoundBytesToNearestBit(bytes);
 		_unit = unit;
 		_prefix = prefix;
 
