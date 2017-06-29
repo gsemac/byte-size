@@ -20,14 +20,13 @@
 
 namespace hvn3 {
 
+	ByteSize::ByteSize(double bytes, BytePrefix prefix) :
+		ByteSize(bytes, prefix, prefix == BytePrefix::Binary ? ByteUnit::IEC : ByteUnit::Metric) {
+	}
 	ByteSize::ByteSize(double bytes, BytePrefix prefix, ByteUnit unit) {
 
 		_bytes = RoundBytesToNearestBit(bytes);
 		_unit = unit;
-
-		if (prefix == BytePrefix::Decimal)
-			unit = ByteUnit::Metric;
-
 		_prefix = prefix;
 
 	}

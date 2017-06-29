@@ -7,7 +7,8 @@ namespace hvn3 {
 	class BitSize {
 
 	public:
-		BitSize(double bytes, BytePrefix prefix = BytePrefix::Binary, ByteUnit unit = ByteUnit::IEC);
+		BitSize(double bytes, BytePrefix prefix = BytePrefix::Binary);
+		BitSize(double bytes, BytePrefix prefix, ByteUnit unit);
 
 		double Bits() const;
 		double Bytes() const;

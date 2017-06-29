@@ -7,7 +7,8 @@ namespace hvn3 {
 	class ByteSize {
 
 	public:
-		ByteSize(double bytes, BytePrefix prefix = BytePrefix::Binary, ByteUnit unit = ByteUnit::IEC);
+		ByteSize(double bytes, BytePrefix prefix = BytePrefix::Binary);
+		ByteSize(double bytes, BytePrefix prefix, ByteUnit unit);
 
 		double Bits() const;
 		double Bytes() const;
