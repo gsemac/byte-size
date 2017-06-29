@@ -40,6 +40,8 @@ public:
 	std::string LargestBitUnitSymbol() const;
 	double LargestBitUnitValue() const;
 
+	std::string ToString(unsigned int precision = 1) const;
+	
 	static ByteSize MinValue();
 	static ByteSize MaxValue();
 

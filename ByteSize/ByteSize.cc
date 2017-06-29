@@ -1,6 +1,9 @@
 #include "ByteSize.h"
 #include <algorithm>
 #include <limits>
+#include <sstream>
+#include <iomanip>
+
 #define BITS_IN_BYTE 8.
 #define BYTES_IN_KIBIBYTE 1024.
 #define BYTES_IN_MEBIBYTE 1048576.
@@ -163,6 +166,16 @@ double ByteSize::LargestBitUnitValue() const {
 		return Bytes();
 
 	return Bits();
+
+}
+
+std::string ByteSize::ToString(unsigned int precision) const {
+
+	std::stringstream stream;
+
+	stream << std::setprecision(precision) << LargestByteUnitValue() << ' ' << LargestByteUnitSymbol();
+
+	return stream.str();
 
 }
 
