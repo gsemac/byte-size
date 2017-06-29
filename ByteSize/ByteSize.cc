@@ -70,17 +70,17 @@ namespace hvn3 {
 
 	std::string ByteSize::LargestUnitSymbol() const {
 
-		if (Petabytes() >= 1.0)
+		if ((std::abs)(Petabytes()) >= 1.0)
 			return PetabyteSymbol(_prefix);
-		if (Terabytes() >= 1.0)
+		if ((std::abs)(Terabytes()) >= 1.0)
 			return TerabyteSymbol(_prefix);
-		if (Gigabytes() >= 1.0)
+		if ((std::abs)(Gigabytes()) >= 1.0)
 			return GigabyteSymbol(_prefix);
-		if (Megabytes() >= 1.0)
+		if ((std::abs)(Megabytes()) >= 1.0)
 			return MegabyteSymbol(_prefix);
-		if (Kilobytes() >= 1.0)
+		if ((std::abs)(Kilobytes()) >= 1.0)
 			return KilobyteSymbol(_prefix);
-		if (Bytes() >= 1.0)
+		if ((std::abs)(Bytes()) >= 1.0)
 			return ByteSymbol(_prefix);
 
 		return BitSymbol(_prefix);
@@ -88,17 +88,17 @@ namespace hvn3 {
 	}
 	double ByteSize::LargestUnitValue() const {
 
-		if (Petabytes() >= 1.0)
+		if ((std::abs)(Petabytes()) >= 1.0)
 			return Petabytes();
-		if (Terabytes() >= 1.0)
+		if ((std::abs)(Terabytes()) >= 1.0)
 			return Terabytes();
-		if (Gigabytes() >= 1.0)
+		if ((std::abs)(Gigabytes()) >= 1.0)
 			return Gigabytes();
-		if (Megabytes() >= 1.0)
+		if ((std::abs)(Megabytes()) >= 1.0)
 			return Megabytes();
-		if (Kilobytes() >= 1.0)
+		if ((std::abs)(Kilobytes()) >= 1.0)
 			return Kilobytes();
-		if (Bytes() >= 1.0)
+		if ((std::abs)(Bytes()) >= 1.0)
 			return Bytes();
 
 		return Bits();
