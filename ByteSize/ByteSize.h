@@ -29,7 +29,7 @@ namespace hvn3 {
 		void AddTerabytes(double size);
 		void AddPetabytes(double size);
 
-		std::string ToString(unsigned int precision = 3) const;
+		std::string ToString(unsigned int precision = 2) const;
 
 		static ByteSize MinValue();
 		static ByteSize MaxValue();
@@ -83,5 +83,6 @@ namespace hvn3 {
 	bool operator>=(const ByteSize& lhs, const ByteSize& rhs);
 	ByteSize operator+(const ByteSize& lhs, const ByteSize& rhs);
 	ByteSize operator-(const ByteSize& lhs, const ByteSize& rhs);
+	std::ostream& operator<<(std::ostream& lhs, const ByteSize& rhs);
 
 }

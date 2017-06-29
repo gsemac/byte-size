@@ -447,5 +447,10 @@ namespace hvn3 {
 		return(BitSize(lhs.Bytes() - rhs.Bytes(), lhs._unit, lhs._prefix));
 
 	}
+	std::ostream& operator<<(std::ostream& lhs, const BitSize& rhs) {
+
+		return lhs << rhs.ToString();
+
+	}
 
 }

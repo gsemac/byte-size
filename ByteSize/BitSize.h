@@ -29,7 +29,7 @@ namespace hvn3 {
 		void AddTerabits(double size);
 		void AddPetabits(double size);
 
-		std::string ToString(unsigned int precision = 3) const;
+		std::string ToString(unsigned int precision = 2) const;
 
 		static BitSize MinValue();
 		static BitSize MaxValue();
@@ -85,10 +85,6 @@ namespace hvn3 {
 	bool operator>=(const BitSize& lhs, const BitSize& rhs);
 	BitSize operator+(const BitSize& lhs, const BitSize& rhs);
 	BitSize operator-(const BitSize& lhs, const BitSize& rhs);
-	std::ostream& operator<<(std::ostream& lhs, const BitSize& rhs) {
-	
-		return lhs << rhs.ToString();
-	
-	}
+	std::ostream& operator<<(std::ostream& lhs, const BitSize& rhs);
 
 }
