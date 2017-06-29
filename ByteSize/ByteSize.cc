@@ -145,7 +145,7 @@ namespace hvn3 {
 
 		std::stringstream stream;
 
-		stream << std::setprecision(precision) << LargestUnitValue() << ' ' << LargestUnitSymbol();
+		stream << std::fixed << std::setprecision(precision) << LargestUnitValue() << ' ' << LargestUnitSymbol();
 
 		return stream.str();
 
