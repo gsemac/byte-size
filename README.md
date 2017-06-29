@@ -42,3 +42,7 @@ Various methods exist to create an instance of either class from a given unit:
 ByteSize bs = ByteSize::FromMegabytes(0.5);
 std::cout << bs; // outputs 512 KiB
 ```
+
+#### License
+
+Released under [MIT License](https://github.com/gsemac/byte-size/blob/master/LICENSE).
