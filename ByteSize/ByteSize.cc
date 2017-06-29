@@ -223,8 +223,8 @@ namespace hvn3 {
 			object = ByteSize::FromPetabytes(size, ByteUnit::Binary, BytePrefix::IEC);
 		else if (suffix == PetabyteSymbol(BytePrefix::Metric))
 			object = ByteSize::FromPetabytes(size, ByteUnit::Decimal, BytePrefix::Metric);
-
-		object = ByteSize::FromBits(size);
+		else
+			object = ByteSize::FromBits(size);
 
 		return true;
 

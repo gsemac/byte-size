@@ -221,8 +221,8 @@ namespace hvn3 {
 			object = BitSize::FromPetabits(size, ByteUnit::Binary, BytePrefix::IEC);
 		else if (suffix == PetabitSymbol(BytePrefix::Metric))
 			object = BitSize::FromPetabits(size, ByteUnit::Decimal, BytePrefix::Metric);
-
-		object = BitSize::FromBits(size);
+		else
+			object = BitSize::FromBits(size);
 
 		return true;
 
