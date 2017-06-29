@@ -24,6 +24,10 @@ namespace hvn3 {
 
 		_bytes = RoundBytesToNearestBit(bytes);
 		_unit = unit;
+
+		if (unit == ByteUnit::Decimal)
+			prefix = BytePrefix::Metric;
+
 		_prefix = prefix;
 
 	}
