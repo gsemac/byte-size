@@ -15,16 +15,6 @@
 #define BYTES_IN_GIGABYTE 1000000000.
 #define BYTES_IN_TERABYTE 1000000000000.
 #define BYTES_IN_PETABYTE 1000000000000000.
-#define BYTES_IN_KIBIBIT 128.
-#define BYTES_IN_MEBIBIT 131072.
-#define BYTES_IN_GIBIBIT 134217728.
-#define BYTES_IN_TEBIBIT 137438953472.
-#define BYTES_IN_PEBIBIT 140737488355328.5
-#define BYTES_IN_KILOBIT 125.
-#define BYTES_IN_MEGABIT 125000.
-#define BYTES_IN_GIGABIT 125000000.
-#define BYTES_IN_TERABIT 125000000000.
-#define BYTES_IN_PETABIT 125000000000000.
 
 ByteSize::ByteSize(double bytes, ByteUnit unit, BytePrefix prefix) {
 
@@ -70,33 +60,7 @@ double ByteSize::Petabytes() const {
 
 }
 
-double ByteSize::Kilobits() const {
-	
-	return Bytes() / BytesInKilobit(_unit);
-
-}
-double ByteSize::Megabits() const {
-
-	return Bytes() / BytesInMegabit(_unit);
-
-}
-double ByteSize::Gigabits() const {
-
-	return Bytes() / BytesInGigabit(_unit);
-
-}
-double ByteSize::Terabits() const {
-
-	return Bytes() / BytesInTerabit(_unit);
-
-}
-double ByteSize::Petabits() const {
-
-	return Bytes() / BytesInPetabit(_unit);
-
-}
-
-std::string ByteSize::LargestByteUnitSymbol() const {
+std::string ByteSize::LargestUnitSymbol() const {
 
 	if (Petabytes() >= 1.0)
 		return PetabyteSymbol(_prefix);
@@ -114,7 +78,7 @@ std::string ByteSize::LargestByteUnitSymbol() const {
 	return BitSymbol(_prefix);
 
 }
-double ByteSize::LargestByteUnitValue() const {
+double ByteSize::LargestUnitValue() const {
 
 	if (Petabytes() >= 1.0)
 		return Petabytes();
@@ -132,48 +96,12 @@ double ByteSize::LargestByteUnitValue() const {
 	return Bits();
 
 }
-std::string ByteSize::LargestBitUnitSymbol() const {
-
-	if (Petabits() >= 1.0)
-		return PetabitSymbol(_prefix);
-	if (Terabits() >= 1.0)
-		return TerabitSymbol(_prefix);
-	if (Gigabits() >= 1.0)
-		return GigabitSymbol(_prefix);
-	if (Megabits() >= 1.0)
-		return MegabitSymbol(_prefix);
-	if (Kilobits() >= 1.0)
-		return KilobitSymbol(_prefix);
-	if (Bytes() >= 1.0)
-		return ByteSymbol(_prefix);
-
-	return BitSymbol(_prefix);
-
-}
-double ByteSize::LargestBitUnitValue() const {
-
-	if (Petabits() >= 1.0)
-		return Petabits();
-	if (Terabits() >= 1.0)
-		return Terabits();
-	if (Gigabits() >= 1.0)
-		return Gigabits();
-	if (Megabits() >= 1.0)
-		return Megabits();
-	if (Kilobits() >= 1.0)
-		return Kilobits();
-	if (Bytes() >= 1.0)
-		return Bytes();
-
-	return Bits();
-
-}
 
 std::string ByteSize::ToString(unsigned int precision) const {
 
 	std::stringstream stream;
 
-	stream << std::setprecision(precision) << LargestByteUnitValue() << ' ' << LargestByteUnitSymbol();
+	stream << std::setprecision(precision) << LargestUnitValue() << ' ' << LargestUnitSymbol();
 
 	return stream.str();
 
@@ -186,7 +114,7 @@ ByteSize ByteSize::MinValue() {
 }
 ByteSize ByteSize::MaxValue() {
 
-	return ByteSize(UINT64_MAX);
+	return ByteSize(DBL_MAX);
 
 }
 
@@ -223,31 +151,6 @@ ByteSize ByteSize::FromTerabytes(double size, ByteUnit unit = ByteUnit::Binary, 
 ByteSize ByteSize::FromPetabytes(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
 
 	return ByteSize(size * BytesInPetabyte(unit), unit, prefix);
-
-}
-ByteSize ByteSize::FromKilobits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
-
-	return ByteSize(size * BytesInKilobit(unit), unit, prefix);
-
-}
-ByteSize ByteSize::FromMegabits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
-
-	return ByteSize(size * BytesInMegabit(unit), unit, prefix);
-
-}
-ByteSize ByteSize::FromGigabits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
-
-	return ByteSize(size * BytesInGigabit(unit), unit, prefix);
-
-}
-ByteSize ByteSize::FromTerabits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
-
-	return ByteSize(size * BytesInTerabit(unit), unit, prefix);
-
-}
-ByteSize ByteSize::FromPetabits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
-
-	return ByteSize(size * BytesInPetabit(unit), unit, prefix);
 
 }
 
@@ -303,57 +206,6 @@ double ByteSize::BytesInPetabyte(ByteUnit unit) {
 		return BYTES_IN_PEBIBYTE;
 	case ByteUnit::Decimal:
 		return BYTES_IN_PETABYTE;
-	}
-
-}
-
-double ByteSize::BytesInKilobit(ByteUnit unit) {
-
-	switch (unit) {
-	case ByteUnit::Binary:
-		return BYTES_IN_KIBIBIT;
-	case ByteUnit::Decimal:
-		return BYTES_IN_KILOBIT;
-	}
-
-}
-double ByteSize::BytesInMegabit(ByteUnit unit) {
-
-	switch (unit) {
-	case ByteUnit::Binary:
-		return BYTES_IN_MEBIBIT;
-	case ByteUnit::Decimal:
-		return BYTES_IN_MEGABIT;
-	}
-
-}
-double ByteSize::BytesInGigabit(ByteUnit unit) {
-
-	switch (unit) {
-	case ByteUnit::Binary:
-		return BYTES_IN_GIBIBIT;
-	case ByteUnit::Decimal:
-		return BYTES_IN_GIGABIT;
-	}
-
-}
-double ByteSize::BytesInTerabit(ByteUnit unit) {
-
-	switch (unit) {
-	case ByteUnit::Binary:
-		return BYTES_IN_TEBIBIT;
-	case ByteUnit::Decimal:
-		return BYTES_IN_TERABIT;
-	}
-
-}
-double ByteSize::BytesInPetabit(ByteUnit unit) {
-
-	switch (unit) {
-	case ByteUnit::Binary:
-		return BYTES_IN_PEBIBIT;
-	case ByteUnit::Decimal:
-		return BYTES_IN_PETABIT;
 	}
 
 }
@@ -421,64 +273,6 @@ std::string ByteSize::PetabyteSymbol(BytePrefix prefix) {
 	case BytePrefix::JEDEC:
 	case BytePrefix::Metric:
 		return "PB";
-	}
-
-}
-
-std::string ByteSize::KilobitSymbol(BytePrefix prefix = BytePrefix::IEC) {
-
-	switch (prefix) {
-	case BytePrefix::IEC:
-		return "Kibit";
-	case BytePrefix::JEDEC:
-		return "Kbit";
-	case BytePrefix::Metric:
-		return "kbit";
-	}
-
-}
-std::string ByteSize::MegabitSymbol(BytePrefix prefix = BytePrefix::IEC) {
-
-	switch (prefix) {
-	case BytePrefix::IEC:
-		return "Mibit";
-	case BytePrefix::JEDEC:
-	case BytePrefix::Metric:
-		return "Mbit";
-	}
-
-
-}
-std::string ByteSize::GigabitSymbol(BytePrefix prefix = BytePrefix::IEC) {
-
-	switch (prefix) {
-	case BytePrefix::IEC:
-		return "Gibit";
-	case BytePrefix::JEDEC:
-	case BytePrefix::Metric:
-		return "Gbit";
-	}
-
-}
-std::string ByteSize::TerabitSymbol(BytePrefix prefix = BytePrefix::IEC) {
-
-	switch (prefix) {
-	case BytePrefix::IEC:
-		return "Tibit";
-	case BytePrefix::JEDEC:
-	case BytePrefix::Metric:
-		return "Tbit";
-	}
-
-}
-std::string ByteSize::PetabitSymbol(BytePrefix prefix = BytePrefix::IEC) {
-
-	switch (prefix) {
-	case BytePrefix::IEC:
-		return "Pibit";
-	case BytePrefix::JEDEC:
-	case BytePrefix::Metric:
-		return "Pbit";
 	}
 
 }

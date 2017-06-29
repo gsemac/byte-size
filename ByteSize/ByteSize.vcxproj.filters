@@ -18,9 +18,15 @@
     <ClInclude Include="ByteSize.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BitSize.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ByteSize.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BitSize.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

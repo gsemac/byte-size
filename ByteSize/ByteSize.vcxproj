@@ -118,9 +118,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BitSize.h" />
     <ClInclude Include="ByteSize.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BitSize.cc" />
     <ClCompile Include="ByteSize.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
