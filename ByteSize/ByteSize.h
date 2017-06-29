@@ -87,9 +87,24 @@ public:
 	static std::string TerabitSymbol(BytePrefix prefix = BytePrefix::IEC);
 	static std::string PetabitSymbol(BytePrefix prefix = BytePrefix::IEC);
 	
+	ByteSize& operator+=(const ByteSize& rhs);
+	ByteSize& operator-=(const ByteSize& rhs);
+
+	friend ByteSize operator+(const ByteSize& lhs, const ByteSize& rhs);
+	friend ByteSize operator-(const ByteSize& lhs, const ByteSize& rhs);
+
 private:
 	ByteUnit _unit;
 	BytePrefix _prefix;
 	double _bytes;
 
 };
+
+bool operator==(const ByteSize& lhs, const ByteSize& rhs);
+bool operator!=(const ByteSize& lhs, const ByteSize& rhs);
+bool operator<(const ByteSize& lhs, const ByteSize& rhs);
+bool operator<=(const ByteSize& lhs, const ByteSize& rhs);
+bool operator>(const ByteSize& lhs, const ByteSize& rhs);
+bool operator>=(const ByteSize& lhs, const ByteSize& rhs);
+ByteSize operator+(const ByteSize& lhs, const ByteSize& rhs);
+ByteSize operator-(const ByteSize& lhs, const ByteSize& rhs);

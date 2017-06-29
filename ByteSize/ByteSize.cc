@@ -482,3 +482,55 @@ std::string ByteSize::PetabitSymbol(BytePrefix prefix = BytePrefix::IEC) {
 	}
 
 }
+
+ByteSize& ByteSize::operator+=(const ByteSize& rhs) {
+
+	_bytes += rhs._bytes;
+
+}
+ByteSize& ByteSize::operator-=(const ByteSize& rhs) {
+
+	_bytes -= rhs._bytes;
+
+}
+
+bool operator==(const ByteSize& lhs, const ByteSize& rhs) {
+
+	return (std::abs)(lhs.Bytes() - rhs.Bytes()) < 0.125; // difference of less than 1 bit
+
+}
+bool operator!=(const ByteSize& lhs, const ByteSize& rhs) {
+
+	return !(lhs == rhs);
+
+}
+bool operator<(const ByteSize& lhs, const ByteSize& rhs) {
+
+	return lhs.Bytes() < rhs.Bytes();
+
+}
+bool operator<=(const ByteSize& lhs, const ByteSize& rhs) {
+
+	return (lhs.Bytes() < rhs.Bytes()) || (lhs == rhs);
+
+}
+bool operator>(const ByteSize& lhs, const ByteSize& rhs) {
+
+	return lhs.Bytes() > rhs.Bytes();
+
+}
+bool operator>=(const ByteSize& lhs, const ByteSize& rhs) {
+
+	return (lhs.Bytes() > rhs.Bytes()) || (lhs == rhs);
+
+}
+ByteSize operator+(const ByteSize& lhs, const ByteSize& rhs) {
+
+	return(ByteSize(lhs.Bytes() + rhs.Bytes(), lhs._unit, lhs._prefix));
+
+}
+ByteSize operator-(const ByteSize& lhs, const ByteSize& rhs) {
+
+	return(ByteSize(lhs.Bytes() - rhs.Bytes(), lhs._unit, lhs._prefix));
+
+}
