@@ -40,13 +40,13 @@ namespace hvn3 {
 		static bool TryParse(const std::string& string, BitSize& object);
 		static bool TryParse(const char* string, BitSize& object);
 
-		static BitSize FromBits(double size, BytePrefix prefix = BytePrefix::Binary, ByteUnit unit = ByteUnit::IEC);
-		static BitSize FromBytes(double size, BytePrefix prefix = BytePrefix::Binary, ByteUnit unit = ByteUnit::IEC);
-		static BitSize FromKilobits(double size, BytePrefix prefix = BytePrefix::Binary, ByteUnit unit = ByteUnit::IEC);
-		static BitSize FromMegabits(double size, BytePrefix prefix = BytePrefix::Binary, ByteUnit unit = ByteUnit::IEC);
-		static BitSize FromGigabits(double size, BytePrefix prefix = BytePrefix::Binary, ByteUnit unit = ByteUnit::IEC);
-		static BitSize FromTerabits(double size, BytePrefix prefix = BytePrefix::Binary, ByteUnit unit = ByteUnit::IEC);
-		static BitSize FromPetabits(double size, BytePrefix prefix = BytePrefix::Binary, ByteUnit unit = ByteUnit::IEC);
+		static BitSize FromBits(double size, BytePrefix prefix = BytePrefix::Binary);
+		static BitSize FromBytes(double size, BytePrefix prefix = BytePrefix::Binary);
+		static BitSize FromKilobits(double size, BytePrefix prefix = BytePrefix::Binary);
+		static BitSize FromMegabits(double size, BytePrefix prefix = BytePrefix::Binary);
+		static BitSize FromGigabits(double size, BytePrefix prefix = BytePrefix::Binary);
+		static BitSize FromTerabits(double size, BytePrefix prefix = BytePrefix::Binary);
+		static BitSize FromPetabits(double size, BytePrefix prefix = BytePrefix::Binary);
 
 		static double BitsInByte(BytePrefix prefix = BytePrefix::Binary);
 
