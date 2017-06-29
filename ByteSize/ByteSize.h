@@ -45,6 +45,11 @@ public:
 	static ByteSize MinValue();
 	static ByteSize MaxValue();
 
+	static ByteSize Parse(const std::string& string);
+	static ByteSize Parse(const char* string);
+	static bool TryParse(const std::string& string, ByteSize& object);
+	static bool TryParse(const char* string, ByteSize& object);
+
 	static ByteSize FromBits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC);
 	static ByteSize FromBytes(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC);
 	static ByteSize FromKilobytes(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC);
