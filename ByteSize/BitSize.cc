@@ -156,6 +156,78 @@ namespace hvn3 {
 
 	}
 
+	BitSize BitSize::Parse(const std::string& string) {
+
+		return Parse(string.c_str());
+
+	}
+	BitSize BitSize::Parse(const char* string) {
+
+		BitSize object(0);
+
+		if (!TryParse(string, object))
+			throw std::invalid_argument("The input string was not in the correct format.");
+
+		return object;
+
+	}
+	bool BitSize::TryParse(const std::string& string, BitSize& object) {
+
+		return TryParse(string.c_str(), object);
+
+	}
+	bool BitSize::TryParse(const char* string, BitSize& object) {
+
+		std::stringstream stream(string);
+		double size = 0.0;
+		std::string suffix;
+
+		// Read the size and suffix.
+		stream >> size >> suffix;
+
+		// If this fails, return false.
+		if (stream.fail())
+			return false;
+
+		// Compare the string to known suffixes.
+		if (suffix == BitSymbol())
+			object = BitSize::FromBits(size);
+		else if (suffix == ByteSymbol())
+			object = BitSize::FromBytes(size);
+
+		else if (suffix == KilobitSymbol(BytePrefix::IEC))
+			object = BitSize::FromKilobits(size, ByteUnit::Binary, BytePrefix::IEC);
+		else if (suffix == KilobitSymbol(BytePrefix::JEDEC))
+			object = BitSize::FromKilobits(size, ByteUnit::Binary, BytePrefix::JEDEC);
+		else if (suffix == KilobitSymbol(BytePrefix::Metric))
+			object = BitSize::FromKilobits(size, ByteUnit::Decimal, BytePrefix::Metric);
+
+		else if (suffix == MegabitSymbol(BytePrefix::IEC))
+			object = BitSize::FromMegabits(size, ByteUnit::Binary, BytePrefix::IEC);
+		else if (suffix == MegabitSymbol(BytePrefix::Metric))
+			object = BitSize::FromMegabits(size, ByteUnit::Decimal, BytePrefix::Metric);
+
+		else if (suffix == GigabitSymbol(BytePrefix::IEC))
+			object = BitSize::FromGigabits(size, ByteUnit::Binary, BytePrefix::IEC);
+		else if (suffix == GigabitSymbol(BytePrefix::Metric))
+			object = BitSize::FromGigabits(size, ByteUnit::Decimal, BytePrefix::Metric);
+
+		else if (suffix == TerabitSymbol(BytePrefix::IEC))
+			object = BitSize::FromTerabits(size, ByteUnit::Binary, BytePrefix::IEC);
+		else if (suffix == TerabitSymbol(BytePrefix::Metric))
+			object = BitSize::FromTerabits(size, ByteUnit::Decimal, BytePrefix::Metric);
+
+		else if (suffix == PetabitSymbol(BytePrefix::IEC))
+			object = BitSize::FromPetabits(size, ByteUnit::Binary, BytePrefix::IEC);
+		else if (suffix == PetabitSymbol(BytePrefix::Metric))
+			object = BitSize::FromPetabits(size, ByteUnit::Decimal, BytePrefix::Metric);
+
+		object = BitSize::FromBits(size);
+
+		return true;
+
+	}
+
 	BitSize BitSize::FromBits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
 
 		return BitSize(size / BitsInByte(unit), unit, prefix);

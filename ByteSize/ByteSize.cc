@@ -3,6 +3,8 @@
 #include <limits>
 #include <sstream>
 #include <iomanip>
+#include <cassert>
+#include <exception>
 
 #define BITS_IN_BYTE 8.
 #define BYTES_IN_KIBIBYTE 1024.
@@ -153,6 +155,78 @@ namespace hvn3 {
 	ByteSize ByteSize::MaxValue() {
 
 		return ByteSize(DBL_MAX);
+
+	}
+
+	ByteSize ByteSize::Parse(const std::string& string) {
+
+		return Parse(string.c_str());
+
+	}
+	ByteSize ByteSize::Parse(const char* string) {
+
+		ByteSize object(0);
+
+		if (!TryParse(string, object))
+			throw std::invalid_argument("The input string was not in the correct format.");
+
+		return object;
+
+	}
+	bool ByteSize::TryParse(const std::string& string, ByteSize& object) {
+
+		return TryParse(string.c_str(), object);
+
+	}
+	bool ByteSize::TryParse(const char* string, ByteSize& object) {
+
+		std::stringstream stream(string);
+		double size = 0.0;
+		std::string suffix;
+
+		// Read the size and suffix.
+		stream >> size >> suffix;
+
+		// If this fails, return false.
+		if (stream.fail())
+			return false;
+
+		// Compare the string to known suffixes.
+		if (suffix == BitSymbol())
+			object = ByteSize::FromBits(size);
+		else if (suffix == ByteSymbol())
+			object = ByteSize::FromBytes(size);
+
+		else if (suffix == KilobyteSymbol(BytePrefix::IEC))
+			object = ByteSize::FromKilobytes(size, ByteUnit::Binary, BytePrefix::IEC);
+		else if (suffix == KilobyteSymbol(BytePrefix::JEDEC))
+			object = ByteSize::FromKilobytes(size, ByteUnit::Binary, BytePrefix::JEDEC);
+		else if (suffix == KilobyteSymbol(BytePrefix::Metric))
+			object = ByteSize::FromKilobytes(size, ByteUnit::Decimal, BytePrefix::Metric);
+
+		else if (suffix == MegabyteSymbol(BytePrefix::IEC))
+			object = ByteSize::FromMegabytes(size, ByteUnit::Binary, BytePrefix::IEC);
+		else if (suffix == MegabyteSymbol(BytePrefix::Metric))
+			object = ByteSize::FromMegabytes(size, ByteUnit::Decimal, BytePrefix::Metric);
+
+		else if (suffix == GigabyteSymbol(BytePrefix::IEC))
+			object = ByteSize::FromGigabytes(size, ByteUnit::Binary, BytePrefix::IEC);
+		else if (suffix == GigabyteSymbol(BytePrefix::Metric))
+			object = ByteSize::FromGigabytes(size, ByteUnit::Decimal, BytePrefix::Metric);
+
+		else if (suffix == TerabyteSymbol(BytePrefix::IEC))
+			object = ByteSize::FromTerabytes(size, ByteUnit::Binary, BytePrefix::IEC);
+		else if (suffix == TerabyteSymbol(BytePrefix::Metric))
+			object = ByteSize::FromTerabytes(size, ByteUnit::Decimal, BytePrefix::Metric);
+
+		else if (suffix == PetabyteSymbol(BytePrefix::IEC))
+			object = ByteSize::FromPetabytes(size, ByteUnit::Binary, BytePrefix::IEC);
+		else if (suffix == PetabyteSymbol(BytePrefix::Metric))
+			object = ByteSize::FromPetabytes(size, ByteUnit::Decimal, BytePrefix::Metric);
+
+		object = ByteSize::FromBits(size);
+
+		return true;
 
 	}
 
