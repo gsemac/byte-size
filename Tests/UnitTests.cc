@@ -8,7 +8,13 @@ namespace Tests {
 	TEST_CLASS(ByteSizeTests) {
 public:
 
-	TEST_METHOD(TestMethod1) {}
+	TEST_METHOD(TestMethodBytes) {
+	
+		hvn3::ByteSize bs(40.0);
+
+		Assert::AreEqual(40.0, bs.Bytes());
+
+	}
 
 	};
 

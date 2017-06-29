@@ -230,37 +230,37 @@ namespace hvn3 {
 
 	}
 
-	ByteSize ByteSize::FromBits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+	ByteSize ByteSize::FromBits(double size, ByteUnit unit, BytePrefix prefix) {
 
 		return ByteSize(size / BitsInByte(unit), unit, prefix);
 
 	}
-	ByteSize ByteSize::FromBytes(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+	ByteSize ByteSize::FromBytes(double size, ByteUnit unit, BytePrefix prefix) {
 
 		return ByteSize(size, unit, prefix);
 
 	}
-	ByteSize ByteSize::FromKilobytes(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+	ByteSize ByteSize::FromKilobytes(double size, ByteUnit unit, BytePrefix prefix) {
 
 		return ByteSize(size * BytesInKilobyte(unit), unit, prefix);
 
 	}
-	ByteSize ByteSize::FromMegabytes(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+	ByteSize ByteSize::FromMegabytes(double size, ByteUnit unit, BytePrefix prefix) {
 
 		return ByteSize(size * BytesInMegabyte(unit), unit, prefix);
 
 	}
-	ByteSize ByteSize::FromGigabytes(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+	ByteSize ByteSize::FromGigabytes(double size, ByteUnit unit, BytePrefix prefix) {
 
 		return ByteSize(size * BytesInGigabyte(unit), unit, prefix);
 
 	}
-	ByteSize ByteSize::FromTerabytes(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+	ByteSize ByteSize::FromTerabytes(double size, ByteUnit unit, BytePrefix prefix) {
 
 		return ByteSize(size * BytesInTerabyte(unit), unit, prefix);
 
 	}
-	ByteSize ByteSize::FromPetabytes(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+	ByteSize ByteSize::FromPetabytes(double size, ByteUnit unit, BytePrefix prefix) {
 
 		return ByteSize(size * BytesInPetabyte(unit), unit, prefix);
 
@@ -393,10 +393,14 @@ namespace hvn3 {
 
 		_bytes += rhs._bytes;
 
+		return *this;
+
 	}
 	ByteSize& ByteSize::operator-=(const ByteSize& rhs) {
 
 		_bytes -= rhs._bytes;
+
+		return *this;
 
 	}
 

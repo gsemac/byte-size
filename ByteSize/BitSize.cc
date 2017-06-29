@@ -228,37 +228,37 @@ namespace hvn3 {
 
 	}
 
-	BitSize BitSize::FromBits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+	BitSize BitSize::FromBits(double size, ByteUnit unit, BytePrefix prefix) {
 
 		return BitSize(size / BitsInByte(unit), unit, prefix);
 
 	}
-	BitSize BitSize::FromBytes(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+	BitSize BitSize::FromBytes(double size, ByteUnit unit, BytePrefix prefix) {
 
 		return BitSize(size, unit, prefix);
 
 	}
-	BitSize BitSize::FromKilobits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+	BitSize BitSize::FromKilobits(double size, ByteUnit unit, BytePrefix prefix) {
 
 		return BitSize(size * BytesInKilobit(unit), unit, prefix);
 
 	}
-	BitSize BitSize::FromMegabits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+	BitSize BitSize::FromMegabits(double size, ByteUnit unit, BytePrefix prefix) {
 
 		return BitSize(size * BytesInMegabit(unit), unit, prefix);
 
 	}
-	BitSize BitSize::FromGigabits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+	BitSize BitSize::FromGigabits(double size, ByteUnit unit, BytePrefix prefix) {
 
 		return BitSize(size * BytesInGigabit(unit), unit, prefix);
 
 	}
-	BitSize BitSize::FromTerabits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+	BitSize BitSize::FromTerabits(double size, ByteUnit unit, BytePrefix prefix) {
 
 		return BitSize(size * BytesInTerabit(unit), unit, prefix);
 
 	}
-	BitSize BitSize::FromPetabits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+	BitSize BitSize::FromPetabits(double size, ByteUnit unit, BytePrefix prefix) {
 
 		return BitSize(size * BytesInPetabit(unit), unit, prefix);
 
@@ -330,7 +330,7 @@ namespace hvn3 {
 		return "B";
 
 	}
-	std::string BitSize::KilobitSymbol(BytePrefix prefix = BytePrefix::IEC) {
+	std::string BitSize::KilobitSymbol(BytePrefix prefix) {
 
 		switch (prefix) {
 		case BytePrefix::IEC:
@@ -342,7 +342,7 @@ namespace hvn3 {
 		}
 
 	}
-	std::string BitSize::MegabitSymbol(BytePrefix prefix = BytePrefix::IEC) {
+	std::string BitSize::MegabitSymbol(BytePrefix prefix) {
 
 		switch (prefix) {
 		case BytePrefix::IEC:
@@ -354,7 +354,7 @@ namespace hvn3 {
 
 
 	}
-	std::string BitSize::GigabitSymbol(BytePrefix prefix = BytePrefix::IEC) {
+	std::string BitSize::GigabitSymbol(BytePrefix prefix) {
 
 		switch (prefix) {
 		case BytePrefix::IEC:
@@ -365,7 +365,7 @@ namespace hvn3 {
 		}
 
 	}
-	std::string BitSize::TerabitSymbol(BytePrefix prefix = BytePrefix::IEC) {
+	std::string BitSize::TerabitSymbol(BytePrefix prefix) {
 
 		switch (prefix) {
 		case BytePrefix::IEC:
@@ -376,7 +376,7 @@ namespace hvn3 {
 		}
 
 	}
-	std::string BitSize::PetabitSymbol(BytePrefix prefix = BytePrefix::IEC) {
+	std::string BitSize::PetabitSymbol(BytePrefix prefix) {
 
 		switch (prefix) {
 		case BytePrefix::IEC:
@@ -392,10 +392,14 @@ namespace hvn3 {
 
 		_bytes += rhs._bytes;
 
+		return *this;
+
 	}
 	BitSize& BitSize::operator-=(const BitSize& rhs) {
 
 		_bytes -= rhs._bytes;
+
+		return *this;
 
 	}
 
