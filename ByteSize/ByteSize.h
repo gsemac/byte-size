@@ -29,7 +29,7 @@ namespace hvn3 {
 		void AddTerabytes(double size);
 		void AddPetabytes(double size);
 
-		std::string ToString(unsigned int precision = 1) const;
+		std::string ToString(unsigned int precision = 3) const;
 
 		static ByteSize MinValue();
 		static ByteSize MaxValue();

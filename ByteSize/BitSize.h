@@ -29,7 +29,7 @@ namespace hvn3 {
 		void AddTerabits(double size);
 		void AddPetabits(double size);
 
-		std::string ToString(unsigned int precision = 1) const;
+		std::string ToString(unsigned int precision = 3) const;
 
 		static BitSize MinValue();
 		static BitSize MaxValue();
