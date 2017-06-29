@@ -7,7 +7,7 @@ namespace hvn3 {
 	class BitSize {
 
 	public:
-		BitSize(double bytes, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC);
+		BitSize(double bytes, BytePrefix prefix = BytePrefix::Binary, ByteUnit unit = ByteUnit::IEC);
 
 		double Bits() const;
 		double Bytes() const;
@@ -39,30 +39,30 @@ namespace hvn3 {
 		static bool TryParse(const std::string& string, BitSize& object);
 		static bool TryParse(const char* string, BitSize& object);
 
-		static BitSize FromBits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC);
-		static BitSize FromBytes(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC);
-		static BitSize FromKilobits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC);
-		static BitSize FromMegabits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC);
-		static BitSize FromGigabits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC);
-		static BitSize FromTerabits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC);
-		static BitSize FromPetabits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC);
+		static BitSize FromBits(double size, BytePrefix prefix = BytePrefix::Binary, ByteUnit unit = ByteUnit::IEC);
+		static BitSize FromBytes(double size, BytePrefix prefix = BytePrefix::Binary, ByteUnit unit = ByteUnit::IEC);
+		static BitSize FromKilobits(double size, BytePrefix prefix = BytePrefix::Binary, ByteUnit unit = ByteUnit::IEC);
+		static BitSize FromMegabits(double size, BytePrefix prefix = BytePrefix::Binary, ByteUnit unit = ByteUnit::IEC);
+		static BitSize FromGigabits(double size, BytePrefix prefix = BytePrefix::Binary, ByteUnit unit = ByteUnit::IEC);
+		static BitSize FromTerabits(double size, BytePrefix prefix = BytePrefix::Binary, ByteUnit unit = ByteUnit::IEC);
+		static BitSize FromPetabits(double size, BytePrefix prefix = BytePrefix::Binary, ByteUnit unit = ByteUnit::IEC);
 
-		static double BitsInByte(ByteUnit unit = ByteUnit::Binary);
+		static double BitsInByte(BytePrefix prefix = BytePrefix::Binary);
 
-		static double BytesInKilobit(ByteUnit unit = ByteUnit::Binary);
-		static double BytesInMegabit(ByteUnit unit = ByteUnit::Binary);
-		static double BytesInGigabit(ByteUnit unit = ByteUnit::Binary);
-		static double BytesInTerabit(ByteUnit unit = ByteUnit::Binary);
-		static double BytesInPetabit(ByteUnit unit = ByteUnit::Binary);
+		static double BytesInKilobit(BytePrefix prefix = BytePrefix::Binary);
+		static double BytesInMegabit(BytePrefix prefix = BytePrefix::Binary);
+		static double BytesInGigabit(BytePrefix prefix = BytePrefix::Binary);
+		static double BytesInTerabit(BytePrefix prefix = BytePrefix::Binary);
+		static double BytesInPetabit(BytePrefix prefix = BytePrefix::Binary);
 
-		static std::string BitSymbol(BytePrefix prefix = BytePrefix::IEC);
-		static std::string ByteSymbol(BytePrefix prefix = BytePrefix::IEC);
+		static std::string BitSymbol(ByteUnit unit = ByteUnit::IEC);
+		static std::string ByteSymbol(ByteUnit unit = ByteUnit::IEC);
 
-		static std::string KilobitSymbol(BytePrefix prefix = BytePrefix::IEC);
-		static std::string MegabitSymbol(BytePrefix prefix = BytePrefix::IEC);
-		static std::string GigabitSymbol(BytePrefix prefix = BytePrefix::IEC);
-		static std::string TerabitSymbol(BytePrefix prefix = BytePrefix::IEC);
-		static std::string PetabitSymbol(BytePrefix prefix = BytePrefix::IEC);
+		static std::string KilobitSymbol(ByteUnit unit = ByteUnit::IEC);
+		static std::string MegabitSymbol(ByteUnit unit = ByteUnit::IEC);
+		static std::string GigabitSymbol(ByteUnit unit = ByteUnit::IEC);
+		static std::string TerabitSymbol(ByteUnit unit = ByteUnit::IEC);
+		static std::string PetabitSymbol(ByteUnit unit = ByteUnit::IEC);
 
 		BitSize& operator+=(const BitSize& rhs);
 		BitSize& operator-=(const BitSize& rhs);
@@ -71,8 +71,8 @@ namespace hvn3 {
 		friend BitSize operator-(const BitSize& lhs, const BitSize& rhs);
 
 	private:
-		ByteUnit _unit;
 		BytePrefix _prefix;
+		ByteUnit _unit;
 		double _bytes;
 
 	};

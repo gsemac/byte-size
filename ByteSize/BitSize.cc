@@ -18,13 +18,13 @@
 
 namespace hvn3 {
 
-	BitSize::BitSize(double bytes, ByteUnit unit, BytePrefix prefix) {
+	BitSize::BitSize(double bytes, BytePrefix prefix, ByteUnit unit) {
 
 		_bytes = RoundBytesToNearestBit(bytes);
 		_unit = unit;
 
-		if (unit == ByteUnit::Decimal)
-			prefix = BytePrefix::Metric;
+		if (prefix == BytePrefix::Decimal)
+			unit = ByteUnit::Metric;
 
 		_prefix = prefix;
 
@@ -42,46 +42,46 @@ namespace hvn3 {
 	}
 	double BitSize::Kilobits() const {
 
-		return Bytes() / BytesInKilobit(_unit);
+		return Bytes() / BytesInKilobit(_prefix);
 
 	}
 	double BitSize::Megabits() const {
 
-		return Bytes() / BytesInMegabit(_unit);
+		return Bytes() / BytesInMegabit(_prefix);
 
 	}
 	double BitSize::Gigabits() const {
 
-		return Bytes() / BytesInGigabit(_unit);
+		return Bytes() / BytesInGigabit(_prefix);
 
 	}
 	double BitSize::Terabits() const {
 
-		return Bytes() / BytesInTerabit(_unit);
+		return Bytes() / BytesInTerabit(_prefix);
 
 	}
 	double BitSize::Petabits() const {
 
-		return Bytes() / BytesInPetabit(_unit);
+		return Bytes() / BytesInPetabit(_prefix);
 
 	}
 
 	std::string BitSize::LargestUnitSymbol() const {
 
 		if ((std::abs)(Petabits()) >= 1.0)
-			return PetabitSymbol(_prefix);
+			return PetabitSymbol(_unit);
 		if ((std::abs)(Terabits()) >= 1.0)
-			return TerabitSymbol(_prefix);
+			return TerabitSymbol(_unit);
 		if ((std::abs)(Gigabits()) >= 1.0)
-			return GigabitSymbol(_prefix);
+			return GigabitSymbol(_unit);
 		if ((std::abs)(Megabits()) >= 1.0)
-			return MegabitSymbol(_prefix);
+			return MegabitSymbol(_unit);
 		if ((std::abs)(Kilobits()) >= 1.0)
-			return KilobitSymbol(_prefix);
+			return KilobitSymbol(_unit);
 		if ((std::abs)(Bytes()) >= 1.0)
-			return ByteSymbol(_prefix);
+			return ByteSymbol(_unit);
 
-		return BitSymbol(_prefix);
+		return BitSymbol(_unit);
 
 	}
 	double BitSize::LargestUnitValue() const {
@@ -105,37 +105,37 @@ namespace hvn3 {
 
 	void BitSize::AddBits(double size) {
 
-		*this = BitSize(Bytes() + BitsInByte(_unit) / size, _unit, _prefix);
+		*this = BitSize(Bytes() + BitsInByte(_prefix) / size, _prefix, _unit);
 
 	}
 	void BitSize::AddBytes(double size) {
 
-		*this = BitSize(Bytes() + size, _unit, _prefix);
+		*this = BitSize(Bytes() + size, _prefix, _unit);
 
 	}
 	void BitSize::AddKilobits(double size) {
 
-		*this = BitSize(Bytes() + size * BytesInKilobit(_unit), _unit, _prefix);
+		*this = BitSize(Bytes() + size * BytesInKilobit(_prefix), _prefix, _unit);
 
 	}
 	void BitSize::AddMegabits(double size) {
 
-		*this = BitSize(Bytes() + size * BytesInMegabit(_unit), _unit, _prefix);
+		*this = BitSize(Bytes() + size * BytesInMegabit(_prefix), _prefix, _unit);
 
 	}
 	void BitSize::AddGigabits(double size) {
 
-		*this = BitSize(Bytes() + size * BytesInGigabit(_unit), _unit, _prefix);
+		*this = BitSize(Bytes() + size * BytesInGigabit(_prefix), _prefix, _unit);
 
 	}
 	void BitSize::AddTerabits(double size) {
 
-		*this = BitSize(Bytes() + size * BytesInTerabit(_unit), _unit, _prefix);
+		*this = BitSize(Bytes() + size * BytesInTerabit(_prefix), _prefix, _unit);
 
 	}
 	void BitSize::AddPetabits(double size) {
 
-		*this = BitSize(Bytes() + size * BytesInPetabit(_unit), _unit, _prefix);
+		*this = BitSize(Bytes() + size * BytesInPetabit(_prefix), _prefix, _unit);
 
 	}
 
@@ -199,32 +199,32 @@ namespace hvn3 {
 		else if (suffix == ByteSymbol())
 			object = BitSize::FromBytes(size);
 
-		else if (suffix == KilobitSymbol(BytePrefix::IEC))
-			object = BitSize::FromKilobits(size, ByteUnit::Binary, BytePrefix::IEC);
-		else if (suffix == KilobitSymbol(BytePrefix::JEDEC))
-			object = BitSize::FromKilobits(size, ByteUnit::Binary, BytePrefix::JEDEC);
-		else if (suffix == KilobitSymbol(BytePrefix::Metric))
-			object = BitSize::FromKilobits(size, ByteUnit::Decimal, BytePrefix::Metric);
+		else if (suffix == KilobitSymbol(ByteUnit::IEC))
+			object = BitSize::FromKilobits(size, BytePrefix::Binary, ByteUnit::IEC);
+		else if (suffix == KilobitSymbol(ByteUnit::JEDEC))
+			object = BitSize::FromKilobits(size, BytePrefix::Binary, ByteUnit::JEDEC);
+		else if (suffix == KilobitSymbol(ByteUnit::Metric))
+			object = BitSize::FromKilobits(size, BytePrefix::Decimal, ByteUnit::Metric);
 
-		else if (suffix == MegabitSymbol(BytePrefix::IEC))
-			object = BitSize::FromMegabits(size, ByteUnit::Binary, BytePrefix::IEC);
-		else if (suffix == MegabitSymbol(BytePrefix::Metric))
-			object = BitSize::FromMegabits(size, ByteUnit::Decimal, BytePrefix::Metric);
+		else if (suffix == MegabitSymbol(ByteUnit::IEC))
+			object = BitSize::FromMegabits(size, BytePrefix::Binary, ByteUnit::IEC);
+		else if (suffix == MegabitSymbol(ByteUnit::Metric))
+			object = BitSize::FromMegabits(size, BytePrefix::Decimal, ByteUnit::Metric);
 
-		else if (suffix == GigabitSymbol(BytePrefix::IEC))
-			object = BitSize::FromGigabits(size, ByteUnit::Binary, BytePrefix::IEC);
-		else if (suffix == GigabitSymbol(BytePrefix::Metric))
-			object = BitSize::FromGigabits(size, ByteUnit::Decimal, BytePrefix::Metric);
+		else if (suffix == GigabitSymbol(ByteUnit::IEC))
+			object = BitSize::FromGigabits(size, BytePrefix::Binary, ByteUnit::IEC);
+		else if (suffix == GigabitSymbol(ByteUnit::Metric))
+			object = BitSize::FromGigabits(size, BytePrefix::Decimal, ByteUnit::Metric);
 
-		else if (suffix == TerabitSymbol(BytePrefix::IEC))
-			object = BitSize::FromTerabits(size, ByteUnit::Binary, BytePrefix::IEC);
-		else if (suffix == TerabitSymbol(BytePrefix::Metric))
-			object = BitSize::FromTerabits(size, ByteUnit::Decimal, BytePrefix::Metric);
+		else if (suffix == TerabitSymbol(ByteUnit::IEC))
+			object = BitSize::FromTerabits(size, BytePrefix::Binary, ByteUnit::IEC);
+		else if (suffix == TerabitSymbol(ByteUnit::Metric))
+			object = BitSize::FromTerabits(size, BytePrefix::Decimal, ByteUnit::Metric);
 
-		else if (suffix == PetabitSymbol(BytePrefix::IEC))
-			object = BitSize::FromPetabits(size, ByteUnit::Binary, BytePrefix::IEC);
-		else if (suffix == PetabitSymbol(BytePrefix::Metric))
-			object = BitSize::FromPetabits(size, ByteUnit::Decimal, BytePrefix::Metric);
+		else if (suffix == PetabitSymbol(ByteUnit::IEC))
+			object = BitSize::FromPetabits(size, BytePrefix::Binary, ByteUnit::IEC);
+		else if (suffix == PetabitSymbol(ByteUnit::Metric))
+			object = BitSize::FromPetabits(size, BytePrefix::Decimal, ByteUnit::Metric);
 		else
 			object = BitSize::FromBits(size);
 
@@ -232,161 +232,161 @@ namespace hvn3 {
 
 	}
 
-	BitSize BitSize::FromBits(double size, ByteUnit unit, BytePrefix prefix) {
+	BitSize BitSize::FromBits(double size, BytePrefix prefix, ByteUnit unit) {
 
-		return BitSize(size / BitsInByte(unit), unit, prefix);
-
-	}
-	BitSize BitSize::FromBytes(double size, ByteUnit unit, BytePrefix prefix) {
-
-		return BitSize(size, unit, prefix);
+		return BitSize(size / BitsInByte(prefix), prefix, unit);
 
 	}
-	BitSize BitSize::FromKilobits(double size, ByteUnit unit, BytePrefix prefix) {
+	BitSize BitSize::FromBytes(double size, BytePrefix prefix, ByteUnit unit) {
 
-		return BitSize(size * BytesInKilobit(unit), unit, prefix);
-
-	}
-	BitSize BitSize::FromMegabits(double size, ByteUnit unit, BytePrefix prefix) {
-
-		return BitSize(size * BytesInMegabit(unit), unit, prefix);
+		return BitSize(size, prefix, unit);
 
 	}
-	BitSize BitSize::FromGigabits(double size, ByteUnit unit, BytePrefix prefix) {
+	BitSize BitSize::FromKilobits(double size, BytePrefix prefix, ByteUnit unit) {
 
-		return BitSize(size * BytesInGigabit(unit), unit, prefix);
-
-	}
-	BitSize BitSize::FromTerabits(double size, ByteUnit unit, BytePrefix prefix) {
-
-		return BitSize(size * BytesInTerabit(unit), unit, prefix);
+		return BitSize(size * BytesInKilobit(prefix), prefix, unit);
 
 	}
-	BitSize BitSize::FromPetabits(double size, ByteUnit unit, BytePrefix prefix) {
+	BitSize BitSize::FromMegabits(double size, BytePrefix prefix, ByteUnit unit) {
 
-		return BitSize(size * BytesInPetabit(unit), unit, prefix);
+		return BitSize(size * BytesInMegabit(prefix), prefix, unit);
+
+	}
+	BitSize BitSize::FromGigabits(double size, BytePrefix prefix, ByteUnit unit) {
+
+		return BitSize(size * BytesInGigabit(prefix), prefix, unit);
+
+	}
+	BitSize BitSize::FromTerabits(double size, BytePrefix prefix, ByteUnit unit) {
+
+		return BitSize(size * BytesInTerabit(prefix), prefix, unit);
+
+	}
+	BitSize BitSize::FromPetabits(double size, BytePrefix prefix, ByteUnit unit) {
+
+		return BitSize(size * BytesInPetabit(prefix), prefix, unit);
 
 	}
 
-	double BitSize::BitsInByte(ByteUnit unit) {
+	double BitSize::BitsInByte(BytePrefix prefix) {
 
 		return BITS_IN_BYTE;
 
 	}
-	double BitSize::BytesInKilobit(ByteUnit unit) {
+	double BitSize::BytesInKilobit(BytePrefix prefix) {
 
-		switch (unit) {
-		case ByteUnit::Binary:
+		switch (prefix) {
+		case BytePrefix::Binary:
 			return BYTES_IN_KIBIBIT;
-		case ByteUnit::Decimal:
+		case BytePrefix::Decimal:
 			return BYTES_IN_KILOBIT;
 		}
 
 	}
-	double BitSize::BytesInMegabit(ByteUnit unit) {
+	double BitSize::BytesInMegabit(BytePrefix prefix) {
 
-		switch (unit) {
-		case ByteUnit::Binary:
+		switch (prefix) {
+		case BytePrefix::Binary:
 			return BYTES_IN_MEBIBIT;
-		case ByteUnit::Decimal:
+		case BytePrefix::Decimal:
 			return BYTES_IN_MEGABIT;
 		}
 
 	}
-	double BitSize::BytesInGigabit(ByteUnit unit) {
+	double BitSize::BytesInGigabit(BytePrefix prefix) {
 
-		switch (unit) {
-		case ByteUnit::Binary:
+		switch (prefix) {
+		case BytePrefix::Binary:
 			return BYTES_IN_GIBIBIT;
-		case ByteUnit::Decimal:
+		case BytePrefix::Decimal:
 			return BYTES_IN_GIGABIT;
 		}
 
 	}
-	double BitSize::BytesInTerabit(ByteUnit unit) {
+	double BitSize::BytesInTerabit(BytePrefix prefix) {
 
-		switch (unit) {
-		case ByteUnit::Binary:
+		switch (prefix) {
+		case BytePrefix::Binary:
 			return BYTES_IN_TEBIBIT;
-		case ByteUnit::Decimal:
+		case BytePrefix::Decimal:
 			return BYTES_IN_TERABIT;
 		}
 
 	}
-	double BitSize::BytesInPetabit(ByteUnit unit) {
+	double BitSize::BytesInPetabit(BytePrefix prefix) {
 
-		switch (unit) {
-		case ByteUnit::Binary:
+		switch (prefix) {
+		case BytePrefix::Binary:
 			return BYTES_IN_PEBIBIT;
-		case ByteUnit::Decimal:
+		case BytePrefix::Decimal:
 			return BYTES_IN_PETABIT;
 		}
 
 	}
 
-	std::string BitSize::BitSymbol(BytePrefix prefix) {
+	std::string BitSize::BitSymbol(ByteUnit unit) {
 
 		return "b";
 
 	}
-	std::string BitSize::ByteSymbol(BytePrefix prefix) {
+	std::string BitSize::ByteSymbol(ByteUnit unit) {
 
 		return "B";
 
 	}
-	std::string BitSize::KilobitSymbol(BytePrefix prefix) {
+	std::string BitSize::KilobitSymbol(ByteUnit unit) {
 
-		switch (prefix) {
-		case BytePrefix::IEC:
+		switch (unit) {
+		case ByteUnit::IEC:
 			return "Kibit";
-		case BytePrefix::JEDEC:
+		case ByteUnit::JEDEC:
 			return "Kbit";
-		case BytePrefix::Metric:
+		case ByteUnit::Metric:
 			return "kbit";
 		}
 
 	}
-	std::string BitSize::MegabitSymbol(BytePrefix prefix) {
+	std::string BitSize::MegabitSymbol(ByteUnit unit) {
 
-		switch (prefix) {
-		case BytePrefix::IEC:
+		switch (unit) {
+		case ByteUnit::IEC:
 			return "Mibit";
-		case BytePrefix::JEDEC:
-		case BytePrefix::Metric:
+		case ByteUnit::JEDEC:
+		case ByteUnit::Metric:
 			return "Mbit";
 		}
 
 
 	}
-	std::string BitSize::GigabitSymbol(BytePrefix prefix) {
+	std::string BitSize::GigabitSymbol(ByteUnit unit) {
 
-		switch (prefix) {
-		case BytePrefix::IEC:
+		switch (unit) {
+		case ByteUnit::IEC:
 			return "Gibit";
-		case BytePrefix::JEDEC:
-		case BytePrefix::Metric:
+		case ByteUnit::JEDEC:
+		case ByteUnit::Metric:
 			return "Gbit";
 		}
 
 	}
-	std::string BitSize::TerabitSymbol(BytePrefix prefix) {
+	std::string BitSize::TerabitSymbol(ByteUnit unit) {
 
-		switch (prefix) {
-		case BytePrefix::IEC:
+		switch (unit) {
+		case ByteUnit::IEC:
 			return "Tibit";
-		case BytePrefix::JEDEC:
-		case BytePrefix::Metric:
+		case ByteUnit::JEDEC:
+		case ByteUnit::Metric:
 			return "Tbit";
 		}
 
 	}
-	std::string BitSize::PetabitSymbol(BytePrefix prefix) {
+	std::string BitSize::PetabitSymbol(ByteUnit unit) {
 
-		switch (prefix) {
-		case BytePrefix::IEC:
+		switch (unit) {
+		case ByteUnit::IEC:
 			return "Pibit";
-		case BytePrefix::JEDEC:
-		case BytePrefix::Metric:
+		case ByteUnit::JEDEC:
+		case ByteUnit::Metric:
 			return "Pbit";
 		}
 
@@ -439,12 +439,12 @@ namespace hvn3 {
 	}
 	BitSize operator+(const BitSize& lhs, const BitSize& rhs) {
 
-		return(BitSize(lhs.Bytes() + rhs.Bytes(), lhs._unit, lhs._prefix));
+		return(BitSize(lhs.Bytes() + rhs.Bytes(), lhs._prefix, lhs._unit));
 
 	}
 	BitSize operator-(const BitSize& lhs, const BitSize& rhs) {
 
-		return(BitSize(lhs.Bytes() - rhs.Bytes(), lhs._unit, lhs._prefix));
+		return(BitSize(lhs.Bytes() - rhs.Bytes(), lhs._prefix, lhs._unit));
 
 	}
 	std::ostream& operator<<(std::ostream& lhs, const BitSize& rhs) {

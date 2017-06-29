@@ -2,14 +2,14 @@
 
 namespace hvn3 {
 
-	enum class ByteUnit {
+	enum class BytePrefix {
 		// One kilobyte is equal to 1000 bytes.
 		Decimal,
 		// One kilobyte is equal to 1024 bytes.
 		Binary
 	};
 
-	enum class BytePrefix {
+	enum class ByteUnit {
 		Metric,
 		IEC,
 		JEDEC

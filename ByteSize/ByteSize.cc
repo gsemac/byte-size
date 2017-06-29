@@ -20,13 +20,13 @@
 
 namespace hvn3 {
 
-	ByteSize::ByteSize(double bytes, ByteUnit unit, BytePrefix prefix) {
+	ByteSize::ByteSize(double bytes, BytePrefix prefix, ByteUnit unit) {
 
 		_bytes = RoundBytesToNearestBit(bytes);
 		_unit = unit;
 
-		if (unit == ByteUnit::Decimal)
-			prefix = BytePrefix::Metric;
+		if (prefix == BytePrefix::Decimal)
+			unit = ByteUnit::Metric;
 
 		_prefix = prefix;
 
@@ -44,46 +44,46 @@ namespace hvn3 {
 	}
 	double ByteSize::Kilobytes() const {
 
-		return Bytes() / BytesInKilobyte(_unit);
+		return Bytes() / BytesInKilobyte(_prefix);
 
 	}
 	double ByteSize::Megabytes() const {
 
-		return Bytes() / BytesInMegabyte(_unit);
+		return Bytes() / BytesInMegabyte(_prefix);
 
 	}
 	double ByteSize::Gigabytes() const {
 
-		return Bytes() / BytesInGigabyte(_unit);
+		return Bytes() / BytesInGigabyte(_prefix);
 
 	}
 	double ByteSize::Terabytes() const {
 
-		return Bytes() / BytesInTerabyte(_unit);
+		return Bytes() / BytesInTerabyte(_prefix);
 
 	}
 	double ByteSize::Petabytes() const {
 
-		return Bytes() / BytesInPetabyte(_unit);
+		return Bytes() / BytesInPetabyte(_prefix);
 
 	}
 
 	std::string ByteSize::LargestUnitSymbol() const {
 
 		if ((std::abs)(Petabytes()) >= 1.0)
-			return PetabyteSymbol(_prefix);
+			return PetabyteSymbol(_unit);
 		if ((std::abs)(Terabytes()) >= 1.0)
-			return TerabyteSymbol(_prefix);
+			return TerabyteSymbol(_unit);
 		if ((std::abs)(Gigabytes()) >= 1.0)
-			return GigabyteSymbol(_prefix);
+			return GigabyteSymbol(_unit);
 		if ((std::abs)(Megabytes()) >= 1.0)
-			return MegabyteSymbol(_prefix);
+			return MegabyteSymbol(_unit);
 		if ((std::abs)(Kilobytes()) >= 1.0)
-			return KilobyteSymbol(_prefix);
+			return KilobyteSymbol(_unit);
 		if ((std::abs)(Bytes()) >= 1.0)
-			return ByteSymbol(_prefix);
+			return ByteSymbol(_unit);
 
-		return BitSymbol(_prefix);
+		return BitSymbol(_unit);
 
 	}
 	double ByteSize::LargestUnitValue() const {
@@ -107,37 +107,37 @@ namespace hvn3 {
 
 	void ByteSize::AddBits(double size) {
 
-		*this = ByteSize(Bytes() + BitsInByte(_unit) / size, _unit, _prefix);
+		*this = ByteSize(Bytes() + BitsInByte(_prefix) / size, _prefix, _unit);
 
 	}
 	void ByteSize::AddBytes(double size) {
 
-		*this = ByteSize(Bytes() + size, _unit, _prefix);
+		*this = ByteSize(Bytes() + size, _prefix, _unit);
 
 	}
 	void ByteSize::AddKilobytes(double size) {
 
-		*this = ByteSize(Bytes() + size * BytesInKilobyte(_unit), _unit, _prefix);
+		*this = ByteSize(Bytes() + size * BytesInKilobyte(_prefix), _prefix, _unit);
 
 	}
 	void ByteSize::AddMegabytes(double size) {
 
-		*this = ByteSize(Bytes() + size * BytesInMegabyte(_unit), _unit, _prefix);
+		*this = ByteSize(Bytes() + size * BytesInMegabyte(_prefix), _prefix, _unit);
 
 	}
 	void ByteSize::AddGigabytes(double size) {
 
-		*this = ByteSize(Bytes() + size * BytesInGigabyte(_unit), _unit, _prefix);
+		*this = ByteSize(Bytes() + size * BytesInGigabyte(_prefix), _prefix, _unit);
 
 	}
 	void ByteSize::AddTerabytes(double size) {
 
-		*this = ByteSize(Bytes() + size * BytesInTerabyte(_unit), _unit, _prefix);
+		*this = ByteSize(Bytes() + size * BytesInTerabyte(_prefix), _prefix, _unit);
 
 	}
 	void ByteSize::AddPetabytes(double size) {
 
-		*this = ByteSize(Bytes() + size * BytesInPetabyte(_unit), _unit, _prefix);
+		*this = ByteSize(Bytes() + size * BytesInPetabyte(_prefix), _prefix, _unit);
 
 	}
 
@@ -201,32 +201,32 @@ namespace hvn3 {
 		else if (suffix == ByteSymbol())
 			object = ByteSize::FromBytes(size);
 
-		else if (suffix == KilobyteSymbol(BytePrefix::IEC))
-			object = ByteSize::FromKilobytes(size, ByteUnit::Binary, BytePrefix::IEC);
-		else if (suffix == KilobyteSymbol(BytePrefix::JEDEC))
-			object = ByteSize::FromKilobytes(size, ByteUnit::Binary, BytePrefix::JEDEC);
-		else if (suffix == KilobyteSymbol(BytePrefix::Metric))
-			object = ByteSize::FromKilobytes(size, ByteUnit::Decimal, BytePrefix::Metric);
+		else if (suffix == KilobyteSymbol(ByteUnit::IEC))
+			object = ByteSize::FromKilobytes(size, BytePrefix::Binary, ByteUnit::IEC);
+		else if (suffix == KilobyteSymbol(ByteUnit::JEDEC))
+			object = ByteSize::FromKilobytes(size, BytePrefix::Binary, ByteUnit::JEDEC);
+		else if (suffix == KilobyteSymbol(ByteUnit::Metric))
+			object = ByteSize::FromKilobytes(size, BytePrefix::Decimal, ByteUnit::Metric);
 
-		else if (suffix == MegabyteSymbol(BytePrefix::IEC))
-			object = ByteSize::FromMegabytes(size, ByteUnit::Binary, BytePrefix::IEC);
-		else if (suffix == MegabyteSymbol(BytePrefix::Metric))
-			object = ByteSize::FromMegabytes(size, ByteUnit::Decimal, BytePrefix::Metric);
+		else if (suffix == MegabyteSymbol(ByteUnit::IEC))
+			object = ByteSize::FromMegabytes(size, BytePrefix::Binary, ByteUnit::IEC);
+		else if (suffix == MegabyteSymbol(ByteUnit::Metric))
+			object = ByteSize::FromMegabytes(size, BytePrefix::Decimal, ByteUnit::Metric);
 
-		else if (suffix == GigabyteSymbol(BytePrefix::IEC))
-			object = ByteSize::FromGigabytes(size, ByteUnit::Binary, BytePrefix::IEC);
-		else if (suffix == GigabyteSymbol(BytePrefix::Metric))
-			object = ByteSize::FromGigabytes(size, ByteUnit::Decimal, BytePrefix::Metric);
+		else if (suffix == GigabyteSymbol(ByteUnit::IEC))
+			object = ByteSize::FromGigabytes(size, BytePrefix::Binary, ByteUnit::IEC);
+		else if (suffix == GigabyteSymbol(ByteUnit::Metric))
+			object = ByteSize::FromGigabytes(size, BytePrefix::Decimal, ByteUnit::Metric);
 
-		else if (suffix == TerabyteSymbol(BytePrefix::IEC))
-			object = ByteSize::FromTerabytes(size, ByteUnit::Binary, BytePrefix::IEC);
-		else if (suffix == TerabyteSymbol(BytePrefix::Metric))
-			object = ByteSize::FromTerabytes(size, ByteUnit::Decimal, BytePrefix::Metric);
+		else if (suffix == TerabyteSymbol(ByteUnit::IEC))
+			object = ByteSize::FromTerabytes(size, BytePrefix::Binary, ByteUnit::IEC);
+		else if (suffix == TerabyteSymbol(ByteUnit::Metric))
+			object = ByteSize::FromTerabytes(size, BytePrefix::Decimal, ByteUnit::Metric);
 
-		else if (suffix == PetabyteSymbol(BytePrefix::IEC))
-			object = ByteSize::FromPetabytes(size, ByteUnit::Binary, BytePrefix::IEC);
-		else if (suffix == PetabyteSymbol(BytePrefix::Metric))
-			object = ByteSize::FromPetabytes(size, ByteUnit::Decimal, BytePrefix::Metric);
+		else if (suffix == PetabyteSymbol(ByteUnit::IEC))
+			object = ByteSize::FromPetabytes(size, BytePrefix::Binary, ByteUnit::IEC);
+		else if (suffix == PetabyteSymbol(ByteUnit::Metric))
+			object = ByteSize::FromPetabytes(size, BytePrefix::Decimal, ByteUnit::Metric);
 		else
 			object = ByteSize::FromBits(size);
 
@@ -234,160 +234,160 @@ namespace hvn3 {
 
 	}
 
-	ByteSize ByteSize::FromBits(double size, ByteUnit unit, BytePrefix prefix) {
+	ByteSize ByteSize::FromBits(double size, BytePrefix prefix, ByteUnit unit) {
 
-		return ByteSize(size / BitsInByte(unit), unit, prefix);
-
-	}
-	ByteSize ByteSize::FromBytes(double size, ByteUnit unit, BytePrefix prefix) {
-
-		return ByteSize(size, unit, prefix);
+		return ByteSize(size / BitsInByte(prefix), prefix, unit);
 
 	}
-	ByteSize ByteSize::FromKilobytes(double size, ByteUnit unit, BytePrefix prefix) {
+	ByteSize ByteSize::FromBytes(double size, BytePrefix prefix, ByteUnit unit) {
 
-		return ByteSize(size * BytesInKilobyte(unit), unit, prefix);
-
-	}
-	ByteSize ByteSize::FromMegabytes(double size, ByteUnit unit, BytePrefix prefix) {
-
-		return ByteSize(size * BytesInMegabyte(unit), unit, prefix);
+		return ByteSize(size, prefix, unit);
 
 	}
-	ByteSize ByteSize::FromGigabytes(double size, ByteUnit unit, BytePrefix prefix) {
+	ByteSize ByteSize::FromKilobytes(double size, BytePrefix prefix, ByteUnit unit) {
 
-		return ByteSize(size * BytesInGigabyte(unit), unit, prefix);
-
-	}
-	ByteSize ByteSize::FromTerabytes(double size, ByteUnit unit, BytePrefix prefix) {
-
-		return ByteSize(size * BytesInTerabyte(unit), unit, prefix);
+		return ByteSize(size * BytesInKilobyte(prefix), prefix, unit);
 
 	}
-	ByteSize ByteSize::FromPetabytes(double size, ByteUnit unit, BytePrefix prefix) {
+	ByteSize ByteSize::FromMegabytes(double size, BytePrefix prefix, ByteUnit unit) {
 
-		return ByteSize(size * BytesInPetabyte(unit), unit, prefix);
+		return ByteSize(size * BytesInMegabyte(prefix), prefix, unit);
+
+	}
+	ByteSize ByteSize::FromGigabytes(double size, BytePrefix prefix, ByteUnit unit) {
+
+		return ByteSize(size * BytesInGigabyte(prefix), prefix, unit);
+
+	}
+	ByteSize ByteSize::FromTerabytes(double size, BytePrefix prefix, ByteUnit unit) {
+
+		return ByteSize(size * BytesInTerabyte(prefix), prefix, unit);
+
+	}
+	ByteSize ByteSize::FromPetabytes(double size, BytePrefix prefix, ByteUnit unit) {
+
+		return ByteSize(size * BytesInPetabyte(prefix), prefix, unit);
 
 	}
 
-	double ByteSize::BitsInByte(ByteUnit unit) {
+	double ByteSize::BitsInByte(BytePrefix prefix) {
 
 		return BITS_IN_BYTE;
 
 	}
-	double ByteSize::BytesInKilobyte(ByteUnit unit) {
+	double ByteSize::BytesInKilobyte(BytePrefix prefix) {
 
-		switch (unit) {
-		case ByteUnit::Binary:
+		switch (prefix) {
+		case BytePrefix::Binary:
 			return BYTES_IN_KIBIBYTE;
-		case ByteUnit::Decimal:
+		case BytePrefix::Decimal:
 			return BYTES_IN_KILOBYTE;
 		}
 
 	}
-	double ByteSize::BytesInMegabyte(ByteUnit unit) {
+	double ByteSize::BytesInMegabyte(BytePrefix prefix) {
 
-		switch (unit) {
-		case ByteUnit::Binary:
+		switch (prefix) {
+		case BytePrefix::Binary:
 			return BYTES_IN_MEBIBYTE;
-		case ByteUnit::Decimal:
+		case BytePrefix::Decimal:
 			return BYTES_IN_MEGABYTE;
 		}
 
 	}
-	double ByteSize::BytesInGigabyte(ByteUnit unit) {
+	double ByteSize::BytesInGigabyte(BytePrefix prefix) {
 
-		switch (unit) {
-		case ByteUnit::Binary:
+		switch (prefix) {
+		case BytePrefix::Binary:
 			return BYTES_IN_GIBIBYTE;
-		case ByteUnit::Decimal:
+		case BytePrefix::Decimal:
 			return BYTES_IN_GIGABYTE;
 		}
 
 	}
-	double ByteSize::BytesInTerabyte(ByteUnit unit) {
+	double ByteSize::BytesInTerabyte(BytePrefix prefix) {
 
-		switch (unit) {
-		case ByteUnit::Binary:
+		switch (prefix) {
+		case BytePrefix::Binary:
 			return BYTES_IN_TEBIBYTE;
-		case ByteUnit::Decimal:
+		case BytePrefix::Decimal:
 			return BYTES_IN_TERABYTE;
 		}
 
 	}
-	double ByteSize::BytesInPetabyte(ByteUnit unit) {
+	double ByteSize::BytesInPetabyte(BytePrefix prefix) {
 
-		switch (unit) {
-		case ByteUnit::Binary:
+		switch (prefix) {
+		case BytePrefix::Binary:
 			return BYTES_IN_PEBIBYTE;
-		case ByteUnit::Decimal:
+		case BytePrefix::Decimal:
 			return BYTES_IN_PETABYTE;
 		}
 
 	}
 
-	std::string ByteSize::BitSymbol(BytePrefix prefix) {
+	std::string ByteSize::BitSymbol(ByteUnit unit) {
 
 		return "b";
 
 	}
-	std::string ByteSize::ByteSymbol(BytePrefix prefix) {
+	std::string ByteSize::ByteSymbol(ByteUnit unit) {
 
 		return "B";
 
 	}
-	std::string ByteSize::KilobyteSymbol(BytePrefix prefix) {
+	std::string ByteSize::KilobyteSymbol(ByteUnit unit) {
 
-		switch (prefix) {
-		case BytePrefix::IEC:
+		switch (unit) {
+		case ByteUnit::IEC:
 			return "KiB";
-		case BytePrefix::JEDEC:
+		case ByteUnit::JEDEC:
 			return "KB";
-		case BytePrefix::Metric:
+		case ByteUnit::Metric:
 			return "kB";
 		}
 
 	}
-	std::string ByteSize::MegabyteSymbol(BytePrefix prefix) {
+	std::string ByteSize::MegabyteSymbol(ByteUnit unit) {
 
-		switch (prefix) {
-		case BytePrefix::IEC:
+		switch (unit) {
+		case ByteUnit::IEC:
 			return "MiB";
-		case BytePrefix::JEDEC:
-		case BytePrefix::Metric:
+		case ByteUnit::JEDEC:
+		case ByteUnit::Metric:
 			return "MB";
 		}
 
 	}
-	std::string ByteSize::GigabyteSymbol(BytePrefix prefix) {
+	std::string ByteSize::GigabyteSymbol(ByteUnit unit) {
 
-		switch (prefix) {
-		case BytePrefix::IEC:
+		switch (unit) {
+		case ByteUnit::IEC:
 			return "GiB";
-		case BytePrefix::JEDEC:
-		case BytePrefix::Metric:
+		case ByteUnit::JEDEC:
+		case ByteUnit::Metric:
 			return "GB";
 		}
 
 	}
-	std::string ByteSize::TerabyteSymbol(BytePrefix prefix) {
+	std::string ByteSize::TerabyteSymbol(ByteUnit unit) {
 
-		switch (prefix) {
-		case BytePrefix::IEC:
+		switch (unit) {
+		case ByteUnit::IEC:
 			return "TiB";
-		case BytePrefix::JEDEC:
-		case BytePrefix::Metric:
+		case ByteUnit::JEDEC:
+		case ByteUnit::Metric:
 			return "TB";
 		}
 
 	}
-	std::string ByteSize::PetabyteSymbol(BytePrefix prefix) {
+	std::string ByteSize::PetabyteSymbol(ByteUnit unit) {
 
-		switch (prefix) {
-		case BytePrefix::IEC:
+		switch (unit) {
+		case ByteUnit::IEC:
 			return "PiB";
-		case BytePrefix::JEDEC:
-		case BytePrefix::Metric:
+		case ByteUnit::JEDEC:
+		case ByteUnit::Metric:
 			return "PB";
 		}
 
@@ -440,12 +440,12 @@ namespace hvn3 {
 	}
 	ByteSize operator+(const ByteSize& lhs, const ByteSize& rhs) {
 
-		return(ByteSize(lhs.Bytes() + rhs.Bytes(), lhs._unit, lhs._prefix));
+		return(ByteSize(lhs.Bytes() + rhs.Bytes(), lhs._prefix, lhs._unit));
 
 	}
 	ByteSize operator-(const ByteSize& lhs, const ByteSize& rhs) {
 
-		return(ByteSize(lhs.Bytes() - rhs.Bytes(), lhs._unit, lhs._prefix));
+		return(ByteSize(lhs.Bytes() - rhs.Bytes(), lhs._prefix, lhs._unit));
 
 	}
 	std::ostream& operator<<(std::ostream& lhs, const ByteSize& rhs) {

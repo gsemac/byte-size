@@ -35,7 +35,7 @@ public:
 
 		hvn3::ByteSize bs = hvn3::ByteSize::FromKilobytes(1.5);
 
-		Assert::AreEqual(std::string("1.5 KiB"), bs.ToString(2));
+		Assert::AreEqual(std::string("1.50 KiB"), bs.ToString(2));
 
 	}
 
@@ -43,7 +43,7 @@ public:
 
 		hvn3::ByteSize bs = hvn3::ByteSize::Parse("1.5 KiB");
 
-		Assert::AreEqual(std::string("1.5 KiB"), bs.ToString(2));
+		Assert::AreEqual(std::string("1.50 KiB"), bs.ToString(2));
 
 	}
 
