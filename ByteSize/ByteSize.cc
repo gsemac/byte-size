@@ -1,28 +1,29 @@
 #include "ByteSize.h"
 #include <algorithm>
-#define BITS_IN_BYTE 8UL
-#define BYTES_IN_KIBIBYTE 1024UL
-#define BYTES_IN_MEBIBYTE 1048576UL
-#define BYTES_IN_GIBIBYTE 1073741824UL
-#define BYTES_IN_TEBIBYTE 1099511627776UL
-#define BYTES_IN_PEBIBYTE 1125899906842624UL
-#define BYTES_IN_KILOBYTE 1000UL
-#define BYTES_IN_MEGABYTE 1000000UL
-#define BYTES_IN_GIGABYTE 1000000000UL
-#define BYTES_IN_TERABYTE 1000000000000UL
-#define BYTES_IN_PETABYTE 1000000000000000UL
-#define BYTES_IN_KIBIBIT 128UL
-#define BYTES_IN_MEBIBIT 131072UL
-#define BYTES_IN_GIBIBIT 134217728UL
-#define BYTES_IN_TEBIBIT 137438953472UL
+#include <limits>
+#define BITS_IN_BYTE 8.
+#define BYTES_IN_KIBIBYTE 1024.
+#define BYTES_IN_MEBIBYTE 1048576.
+#define BYTES_IN_GIBIBYTE 1073741824.
+#define BYTES_IN_TEBIBYTE 1099511627776.
+#define BYTES_IN_PEBIBYTE 1125899906842624.
+#define BYTES_IN_KILOBYTE 1000.
+#define BYTES_IN_MEGABYTE 1000000.
+#define BYTES_IN_GIGABYTE 1000000000.
+#define BYTES_IN_TERABYTE 1000000000000.
+#define BYTES_IN_PETABYTE 1000000000000000.
+#define BYTES_IN_KIBIBIT 128.
+#define BYTES_IN_MEBIBIT 131072.
+#define BYTES_IN_GIBIBIT 134217728.
+#define BYTES_IN_TEBIBIT 137438953472.
 #define BYTES_IN_PEBIBIT 140737488355328.5
-#define BYTES_IN_KILOBIT 125UL
-#define BYTES_IN_MEGABIT 125000UL
-#define BYTES_IN_GIGABIT 125000000UL
-#define BYTES_IN_TERABIT 125000000000UL
-#define BYTES_IN_PETABIT 125000000000000UL
+#define BYTES_IN_KILOBIT 125.
+#define BYTES_IN_MEGABIT 125000.
+#define BYTES_IN_GIGABIT 125000000.
+#define BYTES_IN_TERABIT 125000000000.
+#define BYTES_IN_PETABIT 125000000000000.
 
-ByteSize::ByteSize(uint64_t bytes, ByteUnit unit, BytePrefix prefix) {
+ByteSize::ByteSize(double bytes, ByteUnit unit, BytePrefix prefix) {
 
 	_bytes = bytes;
 	_unit = unit;
@@ -30,74 +31,219 @@ ByteSize::ByteSize(uint64_t bytes, ByteUnit unit, BytePrefix prefix) {
 
 }
 
-uint64_t ByteSize::Bits() const {
-	
-	return _bytes + static_cast<uint64_t>(_bits);
+double ByteSize::Bits() const {
+
+	return _bytes * BITS_IN_BYTE;
 
 }
 double ByteSize::Bytes() const {
 
-	return static_cast<double>(_bytes) + (_bits / static_cast<double>(BitsInByte(_unit)));
+	return _bytes;
 
 }
 double ByteSize::Kilobytes() const {
 
-	return Bytes() / static_cast<double>(BytesInKilobyte(_unit));
+	return Bytes() / BytesInKilobyte(_unit);
 
 }
 double ByteSize::Megabytes() const {
 
-	return Bytes() / static_cast<double>(BytesInMegabyte(_unit));
+	return Bytes() / BytesInMegabyte(_unit);
 
 }
 double ByteSize::Gigabytes() const {
 
-	return Bytes() / static_cast<double>(BytesInGigabyte(_unit));
+	return Bytes() / BytesInGigabyte(_unit);
 
 }
 double ByteSize::Terabytes() const {
 
-	return Bytes() / static_cast<double>(BytesInTerabyte(_unit));
+	return Bytes() / BytesInTerabyte(_unit);
 
 }
 double ByteSize::Petabytes() const {
 
-	return Bytes() / static_cast<double>(BytesInPetabyte(_unit));
+	return Bytes() / BytesInPetabyte(_unit);
 
 }
 
 double ByteSize::Kilobits() const {
-
-	return Bytes() / static_cast<double>(BytesInKilobit(_unit));
+	
+	return Bytes() / BytesInKilobit(_unit);
 
 }
 double ByteSize::Megabits() const {
 
-	return Bytes() / static_cast<double>(BytesInMegabit(_unit));
+	return Bytes() / BytesInMegabit(_unit);
 
 }
 double ByteSize::Gigabits() const {
 
-	return Bytes() / static_cast<double>(BytesInGigabit(_unit));
+	return Bytes() / BytesInGigabit(_unit);
 
 }
 double ByteSize::Terabits() const {
 
-	return Bytes() / static_cast<double>(BytesInTerabit(_unit));
+	return Bytes() / BytesInTerabit(_unit);
 
 }
 double ByteSize::Petabits() const {
 
-	return Bytes() / static_cast<double>(BytesInPetabit(_unit));
+	return Bytes() / BytesInPetabit(_unit);
 
 }
 
-uint64_t ByteSize::BitsInByte(ByteUnit unit) {
+std::string ByteSize::LargestByteUnitSymbol() const {
+
+	if (Petabytes() >= 1.0)
+		return PetabyteSymbol(_prefix);
+	if (Terabytes() >= 1.0)
+		return TerabyteSymbol(_prefix);
+	if (Gigabytes() >= 1.0)
+		return GigabyteSymbol(_prefix);
+	if (Megabytes() >= 1.0)
+		return MegabyteSymbol(_prefix);
+	if (Kilobytes() >= 1.0)
+		return KilobyteSymbol(_prefix);
+	if (Bytes() >= 1.0)
+		return ByteSymbol(_prefix);
+
+	return BitSymbol(_prefix);
+
+}
+double ByteSize::LargestByteUnitValue() const {
+
+	if (Petabytes() >= 1.0)
+		return Petabytes();
+	if (Terabytes() >= 1.0)
+		return Terabytes();
+	if (Gigabytes() >= 1.0)
+		return Gigabytes();
+	if (Megabytes() >= 1.0)
+		return Megabytes();
+	if (Kilobytes() >= 1.0)
+		return Kilobytes();
+	if (Bytes() >= 1.0)
+		return Bytes();
+
+	return Bits();
+
+}
+std::string ByteSize::LargestBitUnitSymbol() const {
+
+	if (Petabits() >= 1.0)
+		return PetabitSymbol(_prefix);
+	if (Terabits() >= 1.0)
+		return TerabitSymbol(_prefix);
+	if (Gigabits() >= 1.0)
+		return GigabitSymbol(_prefix);
+	if (Megabits() >= 1.0)
+		return MegabitSymbol(_prefix);
+	if (Kilobits() >= 1.0)
+		return KilobitSymbol(_prefix);
+	if (Bytes() >= 1.0)
+		return ByteSymbol(_prefix);
+
+	return BitSymbol(_prefix);
+
+}
+double ByteSize::LargestBitUnitValue() const {
+
+	if (Petabits() >= 1.0)
+		return Petabits();
+	if (Terabits() >= 1.0)
+		return Terabits();
+	if (Gigabits() >= 1.0)
+		return Gigabits();
+	if (Megabits() >= 1.0)
+		return Megabits();
+	if (Kilobits() >= 1.0)
+		return Kilobits();
+	if (Bytes() >= 1.0)
+		return Bytes();
+
+	return Bits();
+
+}
+
+ByteSize ByteSize::MinValue() {
+
+	return ByteSize(0);
+
+}
+ByteSize ByteSize::MaxValue() {
+
+	return ByteSize(UINT64_MAX);
+
+}
+
+ByteSize ByteSize::FromBits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+
+	return ByteSize(size / BitsInByte(unit), unit, prefix);
+
+}
+ByteSize ByteSize::FromBytes(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+
+	return ByteSize(size, unit, prefix);
+
+}
+ByteSize ByteSize::FromKilobytes(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+
+	return ByteSize(size * BytesInKilobyte(unit), unit, prefix);
+
+}
+ByteSize ByteSize::FromMegabytes(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+
+	return ByteSize(size * BytesInMegabyte(unit), unit, prefix);
+
+}
+ByteSize ByteSize::FromGigabytes(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+
+	return ByteSize(size * BytesInGigabyte(unit), unit, prefix);
+
+}
+ByteSize ByteSize::FromTerabytes(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+
+	return ByteSize(size * BytesInTerabyte(unit), unit, prefix);
+
+}
+ByteSize ByteSize::FromPetabytes(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+
+	return ByteSize(size * BytesInPetabyte(unit), unit, prefix);
+
+}
+ByteSize ByteSize::FromKilobits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+
+	return ByteSize(size * BytesInKilobit(unit), unit, prefix);
+
+}
+ByteSize ByteSize::FromMegabits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+
+	return ByteSize(size * BytesInMegabit(unit), unit, prefix);
+
+}
+ByteSize ByteSize::FromGigabits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+
+	return ByteSize(size * BytesInGigabit(unit), unit, prefix);
+
+}
+ByteSize ByteSize::FromTerabits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+
+	return ByteSize(size * BytesInTerabit(unit), unit, prefix);
+
+}
+ByteSize ByteSize::FromPetabits(double size, ByteUnit unit = ByteUnit::Binary, BytePrefix prefix = BytePrefix::IEC) {
+
+	return ByteSize(size * BytesInPetabit(unit), unit, prefix);
+
+}
+
+double ByteSize::BitsInByte(ByteUnit unit) {
 
 	return BITS_IN_BYTE;
 
 }
-uint64_t ByteSize::BytesInKilobyte(ByteUnit unit) {
+double ByteSize::BytesInKilobyte(ByteUnit unit) {
 
 	switch (unit) {
 	case ByteUnit::Binary:
@@ -107,7 +253,7 @@ uint64_t ByteSize::BytesInKilobyte(ByteUnit unit) {
 	}
 
 }
-uint64_t ByteSize::BytesInMegabyte(ByteUnit unit) {
+double ByteSize::BytesInMegabyte(ByteUnit unit) {
 
 	switch (unit) {
 	case ByteUnit::Binary:
@@ -117,7 +263,7 @@ uint64_t ByteSize::BytesInMegabyte(ByteUnit unit) {
 	}
 
 }
-uint64_t ByteSize::BytesInGigabyte(ByteUnit unit) {
+double ByteSize::BytesInGigabyte(ByteUnit unit) {
 
 	switch (unit) {
 	case ByteUnit::Binary:
@@ -127,7 +273,7 @@ uint64_t ByteSize::BytesInGigabyte(ByteUnit unit) {
 	}
 
 }
-uint64_t ByteSize::BytesInTerabyte(ByteUnit unit) {
+double ByteSize::BytesInTerabyte(ByteUnit unit) {
 
 	switch (unit) {
 	case ByteUnit::Binary:
@@ -137,7 +283,7 @@ uint64_t ByteSize::BytesInTerabyte(ByteUnit unit) {
 	}
 
 }
-uint64_t ByteSize::BytesInPetabyte(ByteUnit unit) {
+double ByteSize::BytesInPetabyte(ByteUnit unit) {
 
 	switch (unit) {
 	case ByteUnit::Binary:
@@ -145,10 +291,10 @@ uint64_t ByteSize::BytesInPetabyte(ByteUnit unit) {
 	case ByteUnit::Decimal:
 		return BYTES_IN_PETABYTE;
 	}
-	
+
 }
 
-uint64_t ByteSize::BytesInKilobit(ByteUnit unit) {
+double ByteSize::BytesInKilobit(ByteUnit unit) {
 
 	switch (unit) {
 	case ByteUnit::Binary:
@@ -158,7 +304,7 @@ uint64_t ByteSize::BytesInKilobit(ByteUnit unit) {
 	}
 
 }
-uint64_t ByteSize::BytesInMegabit(ByteUnit unit) {
+double ByteSize::BytesInMegabit(ByteUnit unit) {
 
 	switch (unit) {
 	case ByteUnit::Binary:
@@ -168,7 +314,7 @@ uint64_t ByteSize::BytesInMegabit(ByteUnit unit) {
 	}
 
 }
-uint64_t ByteSize::BytesInGigabit(ByteUnit unit) {
+double ByteSize::BytesInGigabit(ByteUnit unit) {
 
 	switch (unit) {
 	case ByteUnit::Binary:
@@ -178,7 +324,7 @@ uint64_t ByteSize::BytesInGigabit(ByteUnit unit) {
 	}
 
 }
-uint64_t ByteSize::BytesInTerabit(ByteUnit unit) {
+double ByteSize::BytesInTerabit(ByteUnit unit) {
 
 	switch (unit) {
 	case ByteUnit::Binary:
@@ -188,11 +334,11 @@ uint64_t ByteSize::BytesInTerabit(ByteUnit unit) {
 	}
 
 }
-uint64_t ByteSize::BytesInPetabit(ByteUnit unit) {
+double ByteSize::BytesInPetabit(ByteUnit unit) {
 
 	switch (unit) {
 	case ByteUnit::Binary:
-		return (std::ceil)(BYTES_IN_PEBIBIT);
+		return BYTES_IN_PEBIBIT;
 	case ByteUnit::Decimal:
 		return BYTES_IN_PETABIT;
 	}
