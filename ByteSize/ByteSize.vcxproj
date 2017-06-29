@@ -120,10 +120,12 @@
   <ItemGroup>
     <ClInclude Include="BitSize.h" />
     <ClInclude Include="ByteSize.h" />
+    <ClInclude Include="ByteSizeCommon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitSize.cc" />
     <ClCompile Include="ByteSize.cc" />
+    <ClCompile Include="ByteSizeCommon.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
