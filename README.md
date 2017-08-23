@@ -1,7 +1,7 @@
 # byte-size
 A class for easily displaying byte quantities in different formats
 
-`ByteSize` (and the accompanying class, `BitSize`) were inpsired by Omar's [ByteSize](https://github.com/omar/ByteSize) class for C#.
+`ByteSize` (and the accompanying class, `BitSize`) was inspired by Omar's [ByteSize](https://github.com/omar/ByteSize) class for C#.
 
 Use the `ByteSize` class to represent amounts in bytes, kilobytes, megabytes, gigabytes, and so on (up to petabytes):
 
@@ -16,7 +16,7 @@ std::cout << bs; // outputs 1.00 KiB
 By default, the binary prefix is used (`1 kilobyte` = `1024 bytes`). The decimal prefix can be used by providing it in the constructor:
 
 ```cpp
-ByteSize bs(1024, BytePrefix::Decimal); // 1 kilobyte  = 1000 bytes
+ByteSize bs(1024, BytePrefix::Decimal); // 1 kilobyte = 1000 bytes
 std::cout << bs; // outputs 1.02 kB
 ```
 
